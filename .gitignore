@@ -1,0 +1,36 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Editor settings
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs and temporary files
+*.log
+tmp/
+.cache/
+coverage/
+
+# Optional tooling and generated output
+node_modules/
+dist/
+build/
+*.local
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Credentials and signing material
+local.properties
+secure.properties
+keystore.properties
+*.key
+*.pem
+*.p12
+*.jks
+*.keystore

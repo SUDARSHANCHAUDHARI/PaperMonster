@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <meta
+      name="description"
+      content="PaperMonster is a cartoon printer that mangles documents for nine attempts, then finally gets one right."
+    />
+    <meta name="theme-color" content="#d9dedb" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="PaperMonster — The printer with an appetite" />
+    <meta
+      property="og:description"
+      content="Feed a document to a cartoon printer that does everything except print it correctly."
+    />
+    <meta name="twitter:card" content="summary" />
+    <title>PaperMonster — The printer with an appetite</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#print-button">Skip to printer controls</a>
+
+    <main class="app-shell">
+      <header class="masthead">
+        <div class="brand-lockup">
+          <svg
+            class="brand-mark"
+            viewBox="0 0 88 72"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M11 20h66v35c0 7-6 12-13 12H24c-7 0-13-5-13-12V20Z"
+              fill="#f36b3f"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M23 20V7h42v13"
+              fill="#fffdf1"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linejoin="round"
+            />
+            <circle cx="29" cy="37" r="5" fill="currentColor" />
+            <circle cx="59" cy="37" r="5" fill="currentColor" />
+            <path
+              d="M24 51c10 8 30 8 40 0"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+            <path d="m44 56-5 8h10l-5-8Z" fill="#fffdf1" stroke="currentColor" stroke-width="2" />
+          </svg>
+          <div>
+            <p class="eyebrow">Office equipment / questionably trained</p>
+            <h1>Paper<span>Monster</span></h1>
+          </div>
+        </div>
+
+        <div class="intro-copy">
+          <p>Feed it a memo. Hope it behaves.</p>
+          <p class="guarantee">
+            <span aria-hidden="true">✓</span>
+            Guaranteed accurate by try 10
+          </p>
+        </div>
+      </header>
+
+      <section class="game-layout" aria-label="PaperMonster printing game">
+        <aside class="document-panel" aria-labelledby="document-heading">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker">Queued document</p>
+              <h2 id="document-heading">Document preview</h2>
+            </div>
+            <span class="file-type">DOC</span>
+          </div>
+
+          <article class="document-preview" aria-label="Preview of Monster Care Plan document">
+            <div class="preview-fold" aria-hidden="true"></div>
+            <p class="document-overline">Internal memo · 1 page</p>
+            <h3>Monster Care Plan</h3>
+            <p class="document-date">Friday, July 19</p>
+            <div class="document-rule"></div>
+            <p>
+              Please print one clear copy for the team. Do not fold, resize, rotate,
+              redact, consume, or otherwise improvise.
+            </p>
+            <h4>Today’s priorities</h4>
+            <ul>
+              <li>Refill the paper tray</li>
+              <li>Compliment the printer</li>
+              <li>Keep fingers away from teeth</li>
+            </ul>
+            <p class="document-signoff">Thank you, Management</p>
+          </article>
+
+          <div class="attempt-card">
+            <div class="attempt-copy">
+              <span>Print attempts</span>
+              <strong><span id="attempt-count">0</span><small>/10</small></strong>
+            </div>
+            <progress id="attempt-progress" max="10" value="0">0 of 10 attempts</progress>
+            <p id="attempt-hint">Ten tries. What could go wrong?</p>
+          </div>
+
+          <section class="attempt-log" aria-labelledby="log-heading">
+            <div class="log-heading-row">
+              <h3 id="log-heading">Incident log</h3>
+              <span id="log-count">0 events</span>
+            </div>
+            <ol id="attempt-history" aria-live="polite">
+              <li class="empty-log">No printer incidents. Yet.</li>
+            </ol>
+          </section>
+        </aside>
+
+        <section class="printer-station" aria-labelledby="printer-heading">
+          <div class="station-label" aria-hidden="true">
+            <span>PM–404</span>
+            <span>Temperamental document system</span>
+          </div>
+
+          <h2 id="printer-heading" class="visually-hidden">Interactive cartoon printer</h2>
+
+          <div class="printer-scene" id="printer-scene">
+            <div class="confetti-layer" id="confetti-layer" aria-hidden="true"></div>
+
+            <div class="printer" id="printer" data-phase="idle" data-outcome="none">
+              <div class="rear-tray" aria-label="Paper input tray with paper loaded">
+                <div class="tray-support"></div>
+                <div class="input-document" id="input-document" aria-hidden="true">
+                  <span class="mini-title">MONSTER<br />CARE PLAN</span>
+                  <span class="mini-rule"></span>
+                  <span class="mini-line wide"></span>
+                  <span class="mini-line"></span>
+                  <span class="mini-line medium"></span>
+                </div>
+              </div>
+
+              <div class="printer-lid">
+                <div class="lid-ridge"></div>
+                <div class="scanner-seam"></div>
+                <span class="lid-label">PAPERMONSTER™</span>
+              </div>
+
+              <div class="printer-body">
+                <div class="monster-eyes" aria-hidden="true">
+                  <span class="eye"><i></i></span>
+                  <span class="eye"><i></i></span>
+                </div>
+
+                <div class="control-panel" aria-label="Printer control panel">
+                  <div class="status-lights" aria-label="Printer status lights">
+                    <span class="status-light ready" title="Ready"></span>
+                    <span class="status-light working" title="Working"></span>
+                    <span class="status-light warning" title="Warning"></span>
+                  </div>
+
+                  <div class="status-screen" role="status" aria-live="polite" aria-atomic="true">
+                    <span class="screen-label">Printer status</span>
+                    <p id="status-message">HUNGRY. I MEAN, READY.</p>
+                    <div class="screen-progress" aria-hidden="true">
+                      <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                  </div>
+
+                  <svg class="panel-icon" viewBox="0 0 52 52" aria-hidden="true">
+                    <path
+                      d="M11 17h30v23H11V17Zm7 0V8h16v9M17 32h18"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <circle cx="35" cy="23" r="2.5" fill="currentColor" />
+                  </svg>
+                </div>
+
+                <div class="printer-mouth" aria-hidden="true">
+                  <div class="mouth-shadow"></div>
+                  <div class="roller roller-left"></div>
+                  <div class="roller roller-right"></div>
+                  <div class="teeth">
+                    <span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                  <div class="jam-scrap" id="jam-scrap">
+                    <span>!</span>
+                  </div>
+                </div>
+
+                <div class="paper-tray" id="paper-tray">
+                  <div class="paper-stack" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="tray-copy">
+                    <strong>TRAY 1</strong>
+                    <span>18 sheets loaded</span>
+                  </div>
+                </div>
+
+                <div class="printer-sticker" aria-hidden="true">
+                  <span>⚠</span> DO NOT FEED AFTER MIDNIGHT
+                </div>
+
+                <span class="body-screw screw-one" aria-hidden="true"></span>
+                <span class="body-screw screw-two" aria-hidden="true"></span>
+              </div>
+
+              <div class="output-stage" id="output-stage" aria-label="Printer output area"></div>
+            </div>
+
+            <div class="desk-shadow" aria-hidden="true"></div>
+          </div>
+
+          <div class="controls" aria-label="Printer controls">
+            <button class="print-button" id="print-button" type="button">
+              <span class="button-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32">
+                  <path d="M8 12V3h16v9M8 23H4V11h24v12h-4M8 18h16v11H8V18Z" />
+                  <circle cx="23" cy="15" r="1.5" />
+                </svg>
+              </span>
+              <span class="button-copy">
+                <small>Attempt <span id="next-attempt">1</span> of 10</small>
+                <strong id="print-label">Print document</strong>
+              </span>
+            </button>
+
+            <button
+              class="utility-button sound-button"
+              id="sound-toggle"
+              type="button"
+              aria-pressed="true"
+            >
+              <svg class="sound-on-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 9v6h4l5 4V5L8 9H4Zm12.5-.5a5 5 0 0 1 0 7m2-10a9 9 0 0 1 0 13" />
+              </svg>
+              <svg class="sound-off-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 9v6h4l5 4V5L8 9H4Zm12 1 5 5m0-5-5 5" />
+              </svg>
+              <span id="sound-label">Sound on</span>
+            </button>
+
+            <button class="utility-button" id="reset-button" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 7v5h-5M4 17v-5h5M6.1 8.5A7 7 0 0 1 18.5 7M17.9 15.5A7 7 0 0 1 5.5 17" />
+              </svg>
+              <span>Reset</span>
+            </button>
+          </div>
+
+          <p class="keyboard-note">
+            <kbd>Tab</kbd> to navigate <span aria-hidden="true">·</span>
+            <kbd>Enter</kbd> to press
+          </p>
+        </section>
+      </section>
+    </main>
+
+    <template id="document-template">
+      <div class="sheet-content">
+        <p class="output-overline">Internal memo · 1 page</p>
+        <h3>Monster Care Plan</h3>
+        <p class="output-date">Friday, July 19</p>
+        <span class="output-rule"></span>
+        <p>Please print one clear copy for the team. Do not fold, resize, rotate, redact, consume, or otherwise improvise.</p>
+        <h4>Today’s priorities</h4>
+        <ul>
+          <li>Refill the paper tray</li>
+          <li>Compliment the printer</li>
+          <li>Keep fingers away from teeth</li>
+        </ul>
+      </div>
+    </template>
+
+    <noscript>
+      <div class="noscript-message">PaperMonster needs JavaScript before it can misbehave.</div>
+    </noscript>
+  </body>
+</html>
