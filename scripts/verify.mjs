@@ -140,6 +140,28 @@ check("core interface color pairs meet WCAG AA contrast", () => {
   }
 });
 
+check("shared TinyChaos UI family contracts are present", () => {
+  const sharedPalette = ["#15152a", "#fff5df", "#ff5d5d", "#4f7cff", "#ffd166", "#58d6a9", "#b695ff"];
+  sharedPalette.forEach((color) => assert.match(css, new RegExp(color, "i")));
+
+  assert.match(html, /href="https:\/\/sudarshanchaudhari\.github\.io\/TinyChaos\/"/);
+  assert.match(html, /PaperMonster · by Sudarshan Chaudhari/);
+  assert.match(css, /outline:\s*4px solid var\(--blue\)/);
+  assert.match(css, /\.print-button:focus-visible,[\s\S]*?\.utility-button:focus-visible\s*\{[^}]*var\(--paper\)[^}]*var\(--ink\)/);
+  assert.match(css, /--display:\s*Impact/);
+  assert.match(css, /--body:\s*"Arial Rounded MT Bold"/);
+  assert.match(css, /h1 span\s*\{[^}]*color:\s*var\(--coral-text\)/s);
+  assert.match(css, /\.document-preview li::marker\s*\{[^}]*color:\s*var\(--coral-text\)/s);
+  assert.match(css, /overflow-x:\s*clip/);
+  assert.ok(contrastRatio(cssColor("blue"), cssColor("paper")) >= 3, "blue focus must contrast with paper");
+  assert.ok(contrastRatio(cssColor("blue"), cssColor("ink")) >= 3, "blue focus must contrast with ink");
+  assert.ok(contrastRatio(cssColor("coral-text"), cssColor("paper")) >= 4.5, "coral text must meet WCAG AA");
+
+  for (const rule of css.matchAll(/(?:^|\n)(?:html|body)\s*\{([^}]*)\}/g)) {
+    assert.doesNotMatch(rule[1], /min-width:\s*(?:280|320)px/);
+  }
+});
+
 check("security policy and offline runtime constraints are present", () => {
   assert.match(html, /http-equiv="Content-Security-Policy"/);
   assert.match(html, /connect-src 'none'/);
