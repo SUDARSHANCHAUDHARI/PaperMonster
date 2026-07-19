@@ -1187,7 +1187,7 @@ progress::-moz-progress-bar {
   display: grid;
   width: 34px;
   height: 34px;
-  color: #ffffff;
+  color: var(--ink);
   font-family: var(--display);
   content: "✓";
   background: var(--green);

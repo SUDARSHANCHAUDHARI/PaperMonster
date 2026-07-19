@@ -187,7 +187,14 @@ check("shared TinyChaos UI family contracts are present", () => {
       resolvedColor(declaration(".success-checkmark", "color")),
       resolvedColor(declaration(".success-checkmark", "background")),
     ) >= 3,
-    "Success checkmark must have 3:1 non-text contrast on mint",
+    "History success checkmark must have 3:1 non-text contrast on mint",
+  );
+  assert.ok(
+    contrastRatio(
+      resolvedColor(declaration(".outcome-correct::after", "color")),
+      resolvedColor(declaration(".outcome-correct::after", "background")),
+    ) >= 3,
+    "Correct outcome checkmark must have 3:1 non-text contrast on mint",
   );
   assert.ok(
     contrastRatio(
