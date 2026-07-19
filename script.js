@@ -360,7 +360,7 @@
       result.textContent = entry.label;
 
       const symbol = document.createElement("span");
-      symbol.className = `log-symbol${entry.id === "correct" ? " success" : ""}`;
+      symbol.className = `log-symbol${entry.id === "correct" ? " success-checkmark" : ""}`;
       symbol.setAttribute("aria-hidden", "true");
       symbol.textContent = entry.symbol;
 

@@ -20,7 +20,7 @@
   --screen: #c5e58b;
   --screen-ink: #203c2c;
   --yellow: #ffd166;
-  --red: #e4443f;
+  --red: #c0353a;
   --green: #58d6a9;
   --lavender: #b695ff;
   --shadow: rgba(23, 34, 41, 0.18);
@@ -50,6 +50,7 @@ body {
   min-height: 100vh;
   margin: 0;
   overflow-x: clip;
+  overflow-y: auto;
   color: var(--ink);
   font-family: var(--body);
   background-color: var(--paper);
@@ -461,7 +462,7 @@ progress::-moz-progress-bar {
   border-radius: 50%;
 }
 
-.log-symbol.success {
+.success-checkmark {
   color: var(--ink);
   background: var(--green);
 }
@@ -1447,7 +1448,7 @@ kbd {
   bottom: 20px;
   left: 20px;
   padding: 16px;
-  color: white;
+  color: var(--paper);
   text-align: center;
   background: var(--red);
   border: 3px solid var(--ink);
@@ -1942,6 +1943,12 @@ kbd {
 
   .control-panel {
     width: 73%;
+  }
+}
+
+@media (max-width: 640px) and (max-height: 500px) {
+  .app-shell {
+    padding-top: 12px;
   }
 }
 

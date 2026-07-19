@@ -46,6 +46,31 @@ function contrastRatio(foreground, background) {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
+function ruleBody(selector, source = css) {
+  const start = source.indexOf(`${selector} {`);
+  assert.notEqual(start, -1, `Missing CSS rule ${selector}`);
+  return source.slice(source.indexOf("{", start) + 1, source.indexOf("}", start));
+}
+
+function declaration(selector, property, source = css) {
+  const match = ruleBody(selector, source).match(
+    new RegExp(`(?:^|\\n)\\s*${property.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&")}\\s*:\\s*([\\s\\S]*?);`),
+  );
+  assert.ok(match, `Missing ${property} in ${selector}`);
+  return match[1].trim();
+}
+
+function resolvedColor(value, seen = new Set()) {
+  const variable = value.match(/^var\(--([^)]+)\)$/);
+  if (!variable) {
+    assert.match(value, /^#[0-9a-f]{6}$/i, `Unsupported color ${value}`);
+    return value.toLowerCase();
+  }
+  assert.equal(seen.has(variable[1]), false, `Circular CSS variable --${variable[1]}`);
+  seen.add(variable[1]);
+  return resolvedColor(declaration(":root", `--${variable[1]}`), seen);
+}
+
 const html = read("index.html");
 const css = read("style.css");
 const javascript = read("script.js");
@@ -156,10 +181,42 @@ check("shared TinyChaos UI family contracts are present", () => {
   assert.ok(contrastRatio(cssColor("blue"), cssColor("paper")) >= 3, "blue focus must contrast with paper");
   assert.ok(contrastRatio(cssColor("blue"), cssColor("ink")) >= 3, "blue focus must contrast with ink");
   assert.ok(contrastRatio(cssColor("coral-text"), cssColor("paper")) >= 4.5, "coral text must meet WCAG AA");
+  assert.match(javascript, /" success-checkmark"/, "Correct outcomes must render the checked success selector");
+  assert.ok(
+    contrastRatio(
+      resolvedColor(declaration(".success-checkmark", "color")),
+      resolvedColor(declaration(".success-checkmark", "background")),
+    ) >= 3,
+    "Success checkmark must have 3:1 non-text contrast on mint",
+  );
+  assert.ok(
+    contrastRatio(
+      resolvedColor(declaration(".noscript-message", "color")),
+      resolvedColor(declaration(".noscript-message", "background")),
+    ) >= 4.5,
+    "No-script message must meet WCAG AA",
+  );
 
-  for (const rule of css.matchAll(/(?:^|\n)(?:html|body)\s*\{([^}]*)\}/g)) {
-    assert.doesNotMatch(rule[1], /min-width:\s*(?:280|320)px/);
-  }
+  const widths = [...css.matchAll(/@media \(max-width: (\d+)px\)\s*\{/g)].map((match) => Number(match[1]));
+  assert.deepEqual(widths, [980, 780, 580, 390], "Width breakpoints must cover laptop, tablet, and 320/375px layouts");
+  const positions = [
+    css.indexOf("@media (max-width: 980px) {"),
+    css.indexOf("@media (max-width: 780px) {"),
+    css.indexOf("@media (max-width: 580px) {"),
+    css.indexOf("@media (max-width: 390px) {"),
+    css.indexOf("@media (max-width: 640px) and (max-height: 500px) {"),
+    css.indexOf("@media (prefers-reduced-motion: reduce) {"),
+  ];
+  assert.ok(positions.every((position) => position >= 0));
+  assert.deepEqual([...positions].sort((a, b) => a - b), positions, "Responsive cascade order changed");
+  const narrowSection = css.slice(positions[4], positions[5]);
+  assert.equal(declaration(".app-shell", "padding-top", narrowSection), "12px");
+  assert.doesNotMatch(css.slice(positions[5]), /\.app-shell\s*\{[^}]*padding-top\s*:/s);
+  assert.equal(declaration("body", "overflow-y"), "auto");
+  assert.equal(declaration("body", "overflow-x"), "clip");
+  assert.equal(declaration("html", "min-width"), "0");
+  assert.equal(declaration("body", "min-width"), "0");
+  assert.match(declaration(".app-shell", "width"), /1440px/, "Base rule must retain large-desktop cap");
 });
 
 check("security policy and offline runtime constraints are present", () => {
