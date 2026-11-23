@@ -5,7 +5,7 @@
 PaperMonster is an interactive cartoon printer that eats, mangles, misprints, throws, and occasionally apologizes for documents instead of printing them correctly. Attempts 1–9 select distinct failures from a shuffled outcome deck; attempt 10 always prints the document correctly and celebrates.
 
 **Version:** 1.0.0<br>
-**Status:** Production-ready; repository remains private pending launch approval<br>
+**Status:** Released; repository is public and the site is live at <https://sudarshanchaudhari.github.io/PaperMonster/><br>
 **Runtime:** Zero dependencies, zero build step
 
 ## Table of Contents
@@ -119,7 +119,7 @@ PaperMonster/
 
 ### Clone
 
-The repository is currently private, so cloning requires access to the author's GitHub account or an approved collaborator account.
+The repository is public, so cloning requires no authentication.
 
 ```sh
 git clone https://github.com/SUDARSHANCHAUDHARI/PaperMonster.git
@@ -225,7 +225,7 @@ PaperMonster targets current versions of Chrome, Edge, Firefox, and Safari on de
 
 ## Contributing
 
-The repository is currently private. Approved contributors should:
+This is a single-maintainer project. Contributors should:
 
 1. Create a focused branch.
 2. Preserve the zero-dependency runtime and accessibility behavior.
