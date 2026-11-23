@@ -236,9 +236,9 @@ Do not add or modify GitHub Actions without explicit repository-owner approval.
 
 ## License
 
-No open-source license has been assigned to PaperMonster. The repository is private, and the code may not be copied, redistributed, sublicensed, or used commercially without written permission from the author.
+Released under the MIT License — see [LICENSE](LICENSE) for the full text.
 
-Copyright © 2026 Sudarshan Chaudhari / SudarshanTechLabs. All rights reserved.
+Copyright © 2026 Sudarshan Chaudhari / SudarshanTechLabs.
 
 ---
 
